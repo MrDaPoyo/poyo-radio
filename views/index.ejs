@@ -40,6 +40,7 @@
             console.log('Playing song: ' + song.title);
             audio.src = song.url;
             audio.currentTime = elapsedTime;
+            audio.volume = 0.35;
             document.getElementById('nowPlaying').textContent = song.title;
             document.getElementById('author').textContent = song.artist;
             document.getElementById('duration').textContent = new Date(songLength * 1000).toISOString().substr(11, 8);
