@@ -8,10 +8,8 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 var totalUsers = 0;
 
@@ -29,7 +27,16 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const socketPort = process.env.PORT || 3000;
+const frontendPort = process.env.PORT || 8000;
+server.listen(socketPort, () => {
+    console.log(`Server is running on port ${socketPort}`);
+});
+
+app.get('/', (req, res) => {
+    res.render('index');
+});
+
+app.listen(frontendPort, () => {
+    console.log(`Frontend is running on port ${frontendPort}`);
 });

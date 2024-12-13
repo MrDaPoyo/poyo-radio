@@ -9,6 +9,7 @@
   "author": "Poyo!",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^4.21.2",
     "socket.io": "^4.8.1"
   }
