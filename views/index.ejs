@@ -12,6 +12,10 @@
         <h1>Code N' Chill</h1>
         <p>Now playing: <span id="nowPlaying">Nothing</span>, <small>by <span id="author">Unknown</span></small></p>
         <p>Time: <span id="time">0:00</span> / <span id="duration">0:00</span></p>
+        <div id="progressBar">
+            <div id="progress">
+            </div>
+        </div>
     </div>
 
     <div class="chat">
@@ -48,6 +52,7 @@
             setInterval(function () {
                 var currentTime = audio.currentTime;
                 document.getElementById('time').textContent = new Date(currentTime * 1000).toISOString().substr(11, 8);
+                document.getElementById('progress').style.width = (currentTime / songLength) * 100 + '%';
             }, 1000);
             audio.play();
         });
