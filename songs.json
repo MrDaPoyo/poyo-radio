@@ -1,12 +1,12 @@
 {
     "songs": [
         {
-        "title": "Waking up in the morning",
+        "title": "Waking Up in The Morning",
         "cleanPath": "good-night-lofi-cozy-chill-music-160166.mp3",
         "artist": "Unknown"
         },
         {
-        "title": "Spilling computers over coffee",
+        "title": "Spilling Computers Over Coffee",
         "cleanPath": "lofi-hip-hop-background-lofi-music-270003.mp3",
         "artist": "Unknown"
         },
@@ -14,6 +14,11 @@
         "title": "Smooth Coffee",
         "cleanPath": "smooth-coffee-254076.mp3",
         "artist": "Krzysztof Szymanski"
+        },
+        {
+            "title": "Latte Glow",
+            "cleanPath": "latte-glow-254085.mp3",
+            "artist": "Krzysztof Szymanski"
         }
     ]
 }
