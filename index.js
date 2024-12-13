@@ -37,7 +37,3 @@ server.listen(socketPort, () => {
 app.get('/', (req, res) => {
     res.render('index');
 });
-
-app.listen(frontendPort, () => {
-    console.log(`Frontend is running on port ${frontendPort}`);
-});
