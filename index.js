@@ -13,9 +13,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 var songLength = 0;
-var pastSong = null;
 var currentSong = null;
-var songStartTime = null;
+var songStartTime = 0;
+var elapsedTime = 0;
 
 function findSong(song) {
     fs.readFile(path.join(__dirname, 'songs.json'), 'utf8', (err, data) => {
@@ -23,25 +23,55 @@ function findSong(song) {
             console.error('Error reading songs.json:', err);
             return;
         }
-        const songs = JSON.parse(data);
+        const songs = JSON.parse(data).songs;
         const songDetails = songs.find(s => s.title === song.title);
-        const songFile = fs.readdirSync(path.join(__dirname, 'public/songs')).find(f => f.startsWith(song.cleanPath));
         if (songDetails) {
-            song.url = `/static/${songDetails.file}`;
-            song.author = songDetails.author;
-            song.title = songDetails.title;
-            const audioFilePath = path.join(__dirname, 'public/static', songFile);
-            const audio = new Audio(audioFilePath);
-            audio.onloadedmetadata = () => {
-                song.length = audio.duration;
-                songLength = audio.duration;
-            };
-            currentSong = song;
-            songStartTime = Date.now();
-            io.emit('playSong', song);
+            const songFile = fs.readdirSync(path.join(__dirname, 'public/songs')).find(f => f.startsWith(songDetails.cleanPath));
+            if (songFile) {
+                song.url = `/static/songs/${songFile}`;
+                song.artist = songDetails.artist;
+                song.title = songDetails.title;
+                song.songStartTime = Date.now();
+                const audioFilePath = path.join(__dirname, 'public/songs', songFile);
+                const ffprobe = require('ffprobe');
+                const ffprobeStatic = require('ffprobe-static');
+                ffprobe(audioFilePath, { path: ffprobeStatic.path }, (err, info) => {
+                    if (err) {
+                        console.error('Error getting audio metadata:', err);
+                        return;
+                    }
+                    if (info) {
+                        song.length = info.streams.duration;
+                        songLength = info.streams.duration;
+                    } else {
+                        console.error('Audio metadata format is undefined');
+                    }
+                });
+                songStartTime = Date.now();
+                elapsedTime = 0;
+                currentSong = song;
+            } else {
+                console.error('Song file not found in public/songs');
+            }
         } else {
             console.error('Song not found in songs.json');
         }
+        currentSong = song;
+
+        io.emit('currentTrack', song);
+    });
+    return song;
+}
+
+function randomSong() {
+    fs.readFile(path.join(__dirname, 'songs.json'), 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading songs.json:', err);
+            return;
+        }
+        const songs = JSON.parse(data).songs;
+        var song = songs[Math.floor(Math.random() * songs.length)];
+        song = findSong(song);
     });
 }
 
@@ -90,6 +120,20 @@ server.listen(socketPort, () => {
     console.log(`Server is running on port ${socketPort}`);
 });
 
+setInterval(() => {
+    elapsedTime++;
+    if (elapsedTime >= songLength) {
+        randomSong();
+    }
+}, 1000);
+
 app.get('/', (req, res) => {
     res.render('index');
+});
+
+randomSong();
+
+app.get('/currentTrack', (req, res) => {
+    console.log(songLength);
+    res.json({ currentSong, elapsedTime, songLength });
 });
