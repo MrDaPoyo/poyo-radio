@@ -1,12 +1,35 @@
+:root {
+    --primary: #6200ea;
+    --secondary: #3700b3;
+    --tertiary: #03dac6;
+    --background: #121212;
+    --background-medium: #212121;
+    --background-light: #333;
+}
+
 * {
     box-sizing: border-box;
 }
 body {
-    background-color: #121212;
+    background-color: var(--background);
     color: #e0e0e0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 25%;
+    overflow: scroll;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: var(--background);
+    border-left: 1px solid var(--background-light);
 }
 
 #messages {
@@ -18,29 +41,30 @@ body {
 #messages li {
     padding: 8px;
     margin-bottom: 10px;
-    background-color: #1e1e1e;
-    border-radius: 5px;
+    background-color: var(--background-light);
+    border-bottom: 1px solid var(--primary);
 }
 
 #form {
     background: rgba(255, 255, 255, 0.1);
     padding: 3px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     margin-inline: auto;
+    flex-grow: 3;
+    border-top: 3px dashed var(--secondary);
 }
 
 #input {
-    border: none;
-    display: flex;
-    flex-grow: 2;
+    border: 1px dashed var(--background-light);
     padding: 10px;
-    min-width: 90%;
     width: 100%;
     margin-right: .5%;
-    background-color: #333;
+    background-color: var(--background-medium);
     color: #e0e0e0;
     border-radius: 5px;
 }
@@ -50,8 +74,7 @@ body {
 }
 
 #send {
-    width: 9%;
-    background: #6200ea;
+    background: var(--primary);
     border: none;
     padding: 10px;
     color: #e0e0e0;
@@ -60,5 +83,5 @@ body {
 }
 
 #send:hover {
-    background: #3700b3;
+    background: var(--secondary);
 }
