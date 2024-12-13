@@ -24,7 +24,7 @@ body {
     flex-wrap: wrap;
     height: 100vh;
     width: 25%;
-    overflow: scroll;
+    overflow: hidden;
     position: absolute;
     right: 0;
     top: 0;
@@ -36,6 +36,9 @@ body {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    text-wrap: wrap;
 }
 
 #messages li {
