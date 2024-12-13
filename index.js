@@ -28,7 +28,7 @@ function findSong(song) {
         if (songDetails) {
             const songFile = fs.readdirSync(path.join(__dirname, 'public/songs')).find(f => f.startsWith(songDetails.cleanPath));
             if (songFile) {
-                song.url = `/static/songs/${songFile}`;
+                song.url = `/songs/${songFile}`;
                 song.artist = songDetails.artist;
                 song.title = songDetails.title;
                 song.songStartTime = Date.now();
@@ -80,7 +80,6 @@ const users = {};
 
 io.on('connection', (socket) => {
     console.log('a user connected');
-
     socket.on('setUsername', (username, callback) => {
         if (users[username]) {
             callback({ success: false, message: 'Username is already taken' });
@@ -88,6 +87,7 @@ io.on('connection', (socket) => {
             users[username] = socket.id;
             totalUsers++;
             io.emit('totalUsers', totalUsers);
+            socket.emit('currentTrack', currentSong, elapsedTime, songLength);
             callback({ success: true });
         }
     });
@@ -113,6 +113,7 @@ io.on('connection', (socket) => {
         };
         io.emit('chat', msg);
     });
+    
 });
 
 const socketPort = process.env.PORT || 3000;
@@ -124,6 +125,7 @@ setInterval(() => {
     elapsedTime++;
     if (elapsedTime >= songLength) {
         randomSong();
+        io.emit('currentTrack', currentSong, elapsedTime, songLength);
     }
 }, 1000);
 
