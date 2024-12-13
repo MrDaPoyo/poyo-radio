@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,8 +12,40 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-var totalUsers = 0;
+var songLength = 0;
+var pastSong = null;
+var currentSong = null;
+var songStartTime = null;
 
+function findSong(song) {
+    fs.readFile(path.join(__dirname, 'songs.json'), 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading songs.json:', err);
+            return;
+        }
+        const songs = JSON.parse(data);
+        const songDetails = songs.find(s => s.title === song.title);
+        const songFile = fs.readdirSync(path.join(__dirname, 'public/songs')).find(f => f.startsWith(song.cleanPath));
+        if (songDetails) {
+            song.url = `/static/${songDetails.file}`;
+            song.author = songDetails.author;
+            song.title = songDetails.title;
+            const audioFilePath = path.join(__dirname, 'public/static', songFile);
+            const audio = new Audio(audioFilePath);
+            audio.onloadedmetadata = () => {
+                song.length = audio.duration;
+                songLength = audio.duration;
+            };
+            currentSong = song;
+            songStartTime = Date.now();
+            io.emit('playSong', song);
+        } else {
+            console.error('Song not found in songs.json');
+        }
+    });
+}
+
+var totalUsers = 0;
 const users = {};
 
 io.on('connection', (socket) => {
