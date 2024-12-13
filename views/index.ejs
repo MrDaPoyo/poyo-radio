@@ -27,6 +27,12 @@
         // Prompt for username
         while (!username) {
             username = prompt('Please enter your username:');
+            socket.emit('setUsername', username, function (response) {
+            if (!response.success) {
+                alert(response.message);
+                username = undefined;
+            }
+            });
         }
 
         form.addEventListener('submit', function (e) {

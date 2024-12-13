@@ -13,23 +13,41 @@ app.set('view engine', 'ejs');
 
 var totalUsers = 0;
 
+const users = {};
+
 io.on('connection', (socket) => {
     console.log('a user connected');
-    totalUsers++;
-    io.emit('totalUsers', totalUsers);
-    socket.on('disconnect', () => {
-        totalUsers--;
-        io.emit('totalUsers', totalUsers);
-        console.log('user disconnected');
+
+    socket.on('setUsername', (username, callback) => {
+        if (users[username]) {
+            callback({ success: false, message: 'Username is already taken' });
+        } else {
+            users[username] = socket.id;
+            totalUsers++;
+            io.emit('totalUsers', totalUsers);
+            callback({ success: true });
+        }
     });
+
+    socket.on('disconnect', () => {
+        for (let username in users) {
+            if (users[username] === socket.id) {
+                delete users[username];
+                totalUsers--;
+                io.emit('totalUsers', totalUsers);
+                console.log(`${username} disconnected`);
+                break;
+            }
+        }
+    });
+
     socket.on('chat', (msg) => {
         console.log('message: ' + msg);
-        io.emit('chat', msg);
+        io.emit('chat', JSON.stringify(msg));
     });
 });
 
 const socketPort = process.env.PORT || 3000;
-const frontendPort = process.env.PORT || 8000;
 server.listen(socketPort, () => {
     console.log(`Server is running on port ${socketPort}`);
 });
