@@ -1,0 +1,15 @@
+{
+  "name": "poyo-radio",
+  "version": "1.0.0",
+  "description": "Radio based on websockets that includes a chatroom!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Poyo!",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
