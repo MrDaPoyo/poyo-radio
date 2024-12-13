@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static("./"));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -22,8 +22,9 @@ io.on('connection', (socket) => {
         io.emit('totalUsers', totalUsers);
         console.log('user disconnected');
     });
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+    socket.on('chat', (msg) => {
+        console.log('message: ' + msg);
+        io.emit('chat', msg);
     });
 });
 
