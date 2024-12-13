@@ -69,6 +69,9 @@
                 var currentTime = audio.currentTime;
                 document.getElementById('time').textContent = new Date(currentTime * 1000).toISOString().substr(11, 8);
                 document.getElementById('progress').style.width = (currentTime / songLength) * 100 + '%';
+                if (currentTime >= songLength) {
+                    clearInterval(this);
+                }
             }, 1000);
             audio.play();
         });

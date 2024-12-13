@@ -127,11 +127,12 @@ server.listen(socketPort, () => {
     console.log(`Server is running on port ${socketPort}`);
 });
 
-setInterval(() => {
+setInterval(async () => {
     elapsedTime++;
     if (elapsedTime >= songLength) {
         elapsedTime = 0;
         randomSong();
+        await new Promise(resolve => setTimeout(resolve, 2000));
         io.emit('currentTrack', currentSong, elapsedTime, songLength);
     }
 }, 1000);
