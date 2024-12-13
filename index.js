@@ -42,8 +42,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat', (msg) => {
-        console.log('message: ' + msg);
-        io.emit('chat', JSON.stringify(msg));
+        var user = Object.keys(users).find(key => users[key] === socket.id);
+        console.log('message: ' + user + ' - ' + msg.message);
+        msg = {
+            username: user,
+            message: msg.message
+        };
+        io.emit('chat', msg);
     });
 });
 

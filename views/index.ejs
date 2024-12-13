@@ -22,19 +22,23 @@
 
         var form = document.getElementById('form');
         var input = document.getElementById('input');
-        var username = '';
+        var username;
 
         // Prompt for username
         while (!username) {
             username = prompt('Please enter your username:');
-            socket.emit('setUsername', username, function (response) {
-            if (!response.success) {
-                alert(response.message);
-                username = undefined;
+            if (!username) {
+                alert('Username is required!');
+            } else {
+                socket.emit('setUsername', username, function (response) {
+                    if (!response.success) {
+                        alert(response.message);
+                        username = undefined;
+                    }
+                });
             }
-            });
         }
-
+        console.log('Username: ' + username);
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value) {
