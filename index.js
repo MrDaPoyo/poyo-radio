@@ -71,6 +71,12 @@ function randomSong() {
         }
         const songs = JSON.parse(data).songs;
         var song = songs[Math.floor(Math.random() * songs.length)];
+        if (currentSong) {
+            if (song.title === currentSong.title) {
+                randomSong();
+                return;
+            }
+        }
         song = findSong(song);
     });
 }
