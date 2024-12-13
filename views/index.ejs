@@ -56,6 +56,7 @@
             document.getElementById('totalUsers').textContent = count;
         });
 
+        var currentTrackInterval;
         socket.on('currentTrack', function (song, elapsedTime, songLength) {
             console.log('Playing song: ' + song.title);
             audio.src = song.url;
@@ -65,12 +66,16 @@
             document.getElementById('author').textContent = song.artist;
             document.getElementById('duration').textContent = new Date(songLength * 1000).toISOString().substr(11, 8);
 
-            setInterval(function () {
+            if (currentTrackInterval) {
+                clearInterval(currentTrackInterval);
+            }
+
+            currentTrackInterval = setInterval(function () {
                 var currentTime = audio.currentTime;
                 document.getElementById('time').textContent = new Date(currentTime * 1000).toISOString().substr(11, 8);
                 document.getElementById('progress').style.width = (currentTime / songLength) * 100 + '%';
                 if (currentTime >= songLength) {
-                    clearInterval(this);
+                    clearInterval(currentTrackInterval);
                 }
             }, 1000);
             audio.play();
