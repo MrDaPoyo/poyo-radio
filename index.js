@@ -130,6 +130,7 @@ server.listen(socketPort, () => {
 setInterval(() => {
     elapsedTime++;
     if (elapsedTime >= songLength) {
+        elapsedTime = 0;
         randomSong();
         io.emit('currentTrack', currentSong, elapsedTime, songLength);
     }
