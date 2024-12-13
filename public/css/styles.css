@@ -234,3 +234,29 @@ body {
     font-size: 0.8em;
     color: var(--tertiary);
 }
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: auto 0;
+    margin-inline: auto;
+}
+
+.totalUsers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    color: var(--primary);
+}
+
+.totalUsers > svg {
+    margin: 0;
+    cursor: pointer;
+    height: 1em;
+    width: 1em;
+}
