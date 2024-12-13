@@ -41,8 +41,8 @@ function findSong(song) {
                         return;
                     }
                     if (info) {
-                        song.length = info.streams.duration;
-                        songLength = info.streams.duration;
+                        song.length = info.streams[0].duration;
+                        songLength = info.streams[0].duration;
                     } else {
                         console.error('Audio metadata format is undefined');
                     }
