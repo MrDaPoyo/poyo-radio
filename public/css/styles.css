@@ -10,12 +10,82 @@
 * {
     box-sizing: border-box;
 }
+
 body {
     background-color: var(--background);
     color: #e0e0e0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    /* img size is 50x50 */
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADcSURBVHgB7dqhEYNAEIXhR4IDQwnUQBt4GCwUgEalD8DjGSyeElA0AViSuxkiUsG7zPvUzqr75+x667pe+DjPE1VVwSVt2yIIAjv793IcR2zbBpcMw4CyLO3sH8dhF13XwTXmzWEYIk1TeEmSXK79xK84jvHAn1AIG4WwUQgbhbBRCBuFsFEIG4WwUQgbhbBRCBuFsFEIG4WwUQgbhbBRCBuFsFEIG4WwUQib5zRNryiKsCwLXGSug5qmgW/unfI8x77v6PseLqnrGlmW2fl7r1UUBeZ5hkvMedPtDeLuNA1gqo2DAAAAAElFTkSuQmCC") repeat 0 0;
+    -webkit-animation: bg-scrolling-reverse 4s infinite;
+    /* Safari 4+ */
+    -moz-animation: bg-scrolling-reverse 4s infinite;
+    /* Fx 5+ */
+    -o-animation: bg-scrolling-reverse 4s infinite;
+    /* Opera 12+ */
+    animation: bg-scrolling-reverse 4s infinite;
+    /* IE 10+ */
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+
+@-webkit-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+@-moz-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+@-o-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+@keyframes bg-scrolling-reverse {
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+@-webkit-keyframes bg-scrolling {
+    0% {
+        background-position: 50px 50px;
+    }
+}
+
+@-moz-keyframes bg-scrolling {
+    0% {
+        background-position: 50px 50px;
+    }
+}
+
+@-o-keyframes bg-scrolling {
+    0% {
+        background-position: 50px 50px;
+    }
+}
+
+@keyframes bg-scrolling {
+    0% {
+        background-position: 50px 50px;
+    }
 }
 
 .chat {
@@ -25,9 +95,7 @@ body {
     height: 100vh;
     width: 25%;
     overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
+    position: relative;
     background-color: var(--background);
     border-left: 1px solid var(--background-light);
 }
@@ -86,4 +154,54 @@ body {
 
 #send:hover {
     background: var(--secondary);
+}
+
+.player {
+    background-color: var(--background-medium);
+    color: #e0e0e0;
+    text-align: center;
+    margin-inline: auto;
+    padding: 10px;
+}
+
+.player h1 {
+    margin: 0;
+    font-size: 2em;
+    color: var(--primary);
+    animation: pulse 5s infinite, charWave 5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes charWave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.player p {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.player span {
+    font-weight: bold;
+}
+
+.player small {
+    font-size: 0.8em;
+    color: var(--tertiary);
 }
