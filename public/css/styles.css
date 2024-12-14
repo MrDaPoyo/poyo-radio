@@ -98,9 +98,12 @@ body {
     }
 }
 
+* {
+    font-size: 1.1em;
+}
+
 input, button {
     font-family: CuteFont, DOSVGA, Arial, sans-serif;
-    font-size: 1em;
     color: #e0e0e0;
     background-color: var(--background-medium);
     border: 1px dashed var(--background-light);
