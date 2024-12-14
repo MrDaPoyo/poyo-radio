@@ -286,8 +286,8 @@ button:disabled {
 .totalUsers > svg {
     margin: 0;
     cursor: pointer;
-    height: 1em;
-    width: 1em;
+    height: 1rem;
+    width: 1rem;
 }
 
 .login-container {
