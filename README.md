@@ -1,6 +1,12 @@
 ![Logo](readme/logo.png)
 # Code N Chill
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/MrDaPoyo/poyo-radio)
+![GitHub License](https://img.shields.io/github/license/MrDaPoyo/poyo-radio)
+![Discord](https://img.shields.io/discord/1284803560479133758)
+![GitHub language count](https://img.shields.io/github/languages/count/MrDaPoyo/poyo-radio)
+
 An *electronic radio* based on __websockets__ that includes a chatroom!
+Made by: Poyo! ([PoyoWeb](https://poyoweb.org))
 
 # How can I run my own Code N Chill radio?
 
