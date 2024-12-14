@@ -111,8 +111,10 @@ io.on('connection', (socket) => {
         for (let username in users) {
             if (users[username] === socket.id) {
                 delete users[username];
+                delete typingUsers[username];
                 totalUsers--;
                 io.emit('totalUsers', totalUsers);
+                io.emit(' chat typing', Object.keys(typingUsers).filter(username => typingUsers[username]).join(', '));
                 console.log(`${username} disconnected`);
                 break;
             }
