@@ -176,9 +176,8 @@ body {
     padding: 10px;
 }
 
-.player h1 {
+.logo {
     margin: 0;
-    font-size: 2em;
     color: var(--primary);
     animation: pulse 5s infinite, charWave 5s infinite;
 }
