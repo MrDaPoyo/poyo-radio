@@ -118,12 +118,11 @@ button:disabled {
     background-color: var(--background-light);
     cursor: not-allowed;
 }
-
 .chat {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 100vh;
+    height: 100%;
     width: 25%;
     overflow: hidden;
     position: relative;
@@ -138,6 +137,7 @@ button:disabled {
     overflow-y: scroll;
     overflow-x: hidden;
     text-wrap: wrap;
+    height: 90%;
 }
 
 #messages li {
@@ -156,8 +156,8 @@ button:disabled {
     justify-content: space-between;
     font-family: DOSVGA;
     width: 100%;
+    height: 10%;
     margin-inline: auto;
-    flex-grow: 3;
     border-top: 3px dashed var(--secondary);
 }
 
