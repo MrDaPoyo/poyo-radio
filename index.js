@@ -87,6 +87,8 @@ function randomSong() {
 var totalUsers = 0;
 var typingUsers = {};
 const users = {};
+var availableColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#008000', '#800000', '#000080', '#FFD700', '#FF69B4', '#FF4500', '#FF6347', '#FF1493', '#FF00FF'];
+users.colors = {};
 
 function updateTypingUsers() {
     const typingUsernames = Object.keys(typingUsers).filter(username => typingUsers[username]);
@@ -103,7 +105,8 @@ io.on('connection', (socket) => {
         } else {
             users[username] = socket.id;
             totalUsers++;
-            io.emit('totalUsers', totalUsers);
+            users.colors[username] = availableColors.shift();
+            io.emit('totalUsers', totalUsers, users.colors);
             socket.emit('currentTrack', currentSong, elapsedTime, songLength);
             callback({ success: true });
         }
