@@ -12,6 +12,11 @@
     src: url("/fonts/Perfect DOS VGA 437 Win.ttf");
 }
 
+@font-face {
+    font-family: "CuteFont";
+    src: url("/fonts/CuteFont-Regular.ttf");
+}
+
 * {
     box-sizing: border-box;
 }
@@ -19,7 +24,7 @@
 body {
     background-color: var(--background);
     color: #e0e0e0;
-    font-family: DOSVGA, Arial, sans-serif;
+    font-family: CuteFont, DOSVGA, Arial, sans-serif;
     margin: 0;
     padding: 0;
     width: 100vw;
