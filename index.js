@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
@@ -11,6 +12,8 @@ const io = new Server(server);
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(cookieParser());
 
 var songLength = 0;
 var currentSong = null;
@@ -119,6 +122,14 @@ io.on('connection', (socket) => {
         };
         io.emit('chat', msg);
     });
+
+    socket.on('checkUsername', (username, callback) => {
+        if (users[username]) {
+            callback(false);
+        } else {
+            callback(true);
+        }
+    });
     
 });
 
@@ -137,8 +148,17 @@ setInterval(async () => {
     }
 }, 1000);
 
+
 app.get('/', (req, res) => {
-    res.render('index');
+    if (!req.cookies.username) {
+        return res.render('index');
+    }
+    if (users[req.cookies.username]) {
+        var username = req.cookies.username;
+        res.clearCookie('username');
+        return res.render('index', { username: username });
+    }
+    return res.render('player', { username: req.cookies.username });
 });
 
 randomSong();

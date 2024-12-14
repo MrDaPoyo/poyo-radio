@@ -1,0 +1,121 @@
+<%- include('header') %>
+    <button onclick="window.location.href = '/'; document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';" class="logout">Exit</button>
+    <audio id="audio"></audio>
+    <div class="player">
+        <img class="logo" src="/images/logo.png" alt="Code N' Chill logo" />
+        <p>Now playing: <span id="nowPlaying">Nothing</span>, <small>by <span id="author">Unknown</span></small></p>
+        <div class="controls">
+            <div class="time">
+                <span id="time">0:00</span> / <span id="duration">0:00</span>
+            </div>
+            <div class="totalUsers">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <path
+                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                </svg>
+                <span id="totalUsers"></span>
+            </div>
+        </div>
+        <div id="progressBar">
+            <div id="progress">
+            </div>
+        </div>
+    </div>
+
+    <div class="chat">
+        <ul id="messages"></ul>
+        <form id="form" action="">
+            <input id="input" autocomplete="off" /><button id="send">Send</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"
+        integrity="sha512-8BHxHDLsOHx+flIrQ0DrZcea7MkHqRU5GbTHmbdzMRnAaoCIkZ97PqZcXJkKZckMMhqfoeaJE+DNUVuyoQsO3Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var socket = io();
+
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+        var audio = document.getElementById('audio');
+        var username = '<%= username || undefined %>';
+
+        socket.on('totalUsers', function (count) {
+            console.log('Total users connected: ' + count);
+            document.getElementById('totalUsers').textContent = count;
+        });
+
+        var currentTrackInterval;
+        socket.on('currentTrack', function (song, elapsedTime, songLength) {
+            console.log('Playing song: ' + song.title);
+            audio.src = song.url;
+            audio.currentTime = elapsedTime;
+            audio.volume = 0.35;
+            document.getElementById('nowPlaying').textContent = song.title;
+            document.getElementById('author').textContent = song.artist;
+            document.getElementById('duration').textContent = new Date(songLength * 1000).toISOString().substr(11, 8);
+
+            if (currentTrackInterval) {
+                clearInterval(currentTrackInterval);
+            }
+
+            currentTrackInterval = setInterval(function () {
+                var currentTime = audio.currentTime;
+                document.getElementById('time').textContent = new Date(currentTime * 1000).toISOString().substr(11, 8);
+                document.getElementById('progress').style.width = (currentTime / songLength) * 100 + '%';
+                if (currentTime >= songLength) {
+                    clearInterval(currentTrackInterval);
+                }
+            }, 1000);
+            audio.play();
+        });
+        // Click to continue popup
+        var popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '0';
+        popup.style.left = '0';
+        popup.style.width = '100%';
+        popup.style.height = '100%';
+        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        popup.style.color = 'white';
+        popup.style.display = 'flex';
+        popup.style.justifyContent = 'center';
+        popup.style.alignItems = 'center';
+        popup.style.fontSize = '24px';
+        popup.style.zIndex = '1000';
+        popup.innerHTML = 'Click to continue';
+        document.body.appendChild(popup);
+        popup.addEventListener('click', function () {
+            document.body.removeChild(popup);
+            // Resume the program after the popup is clicked
+            socket.on('currentTrack', function (song, elapsedTime, songLength) {
+                console.log('Playing song: ' + song.title);
+                audio.src = song.url;
+                audio.currentTime = elapsedTime;
+                audio.play();
+            });
+            socket.emit('setUsername', username, function (response) {
+                if (!response.success) {
+                    alert(response.message);
+                    document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    window.location.href = '/';
+                }
+            });
+        });        // Prompt for username
+            console.log('Username: ' + username);
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (input.value) {
+                    socket.emit('chat', { username: username, message: input.value });
+                    input.value = '';
+                }
+            });
+
+            socket.on('chat', function (data) {
+                var item = document.createElement('li');
+                item.textContent = data.username + ': ' + data.message;
+                document.getElementById('messages').appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+    </script>
+    <%- include('footer') %>

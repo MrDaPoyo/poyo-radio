@@ -98,6 +98,27 @@ body {
     }
 }
 
+input, button {
+    font-family: CuteFont, DOSVGA, Arial, sans-serif;
+    font-size: 1em;
+    color: #e0e0e0;
+    background-color: var(--background-medium);
+    border: 1px dashed var(--background-light);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--primary);
+    transform: 2s;
+}
+
+button:disabled {
+    background-color: var(--background-light);
+    cursor: not-allowed;
+}
+
 .chat {
     display: flex;
     flex-direction: column;
@@ -174,6 +195,7 @@ body {
     text-align: center;
     margin-inline: auto;
     padding: 10px;
+    border: 1px solid var(--background-light);
 }
 
 .logo {
@@ -263,6 +285,32 @@ body {
     cursor: pointer;
     height: 1em;
     width: 1em;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background);
+    padding: 10px;
+    border: 1px solid var(--background-light);
+}
+
+.login-container * {
+    margin: 5px;
+}
+
+.logout {
+    background-color: var(--secondary);
+    color: #e0e0e0;
+    border: var(--background-light) 1px solid;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 @media screen and (max-width: 768px) {
