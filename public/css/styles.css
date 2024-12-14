@@ -264,3 +264,17 @@ body {
     height: 1em;
     width: 1em;
 }
+
+@media screen and (max-width: 768px) {
+    .chat {
+        width: 100%;
+        height: 50vh;
+    }
+
+    .player {
+        width: 100%;
+    }
+    body {
+        flex-direction: column;
+    }
+}
