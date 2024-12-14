@@ -98,6 +98,8 @@ io.on('connection', (socket) => {
     socket.on('setUsername', (username, callback) => {
         if (users[username]) {
             callback({ success: false, message: 'Username is already taken' });
+        } else if (username.length > 15) {
+            callback({ success: false, message: 'Username is too long' });
         } else {
             users[username] = socket.id;
             totalUsers++;
@@ -133,7 +135,9 @@ io.on('connection', (socket) => {
 
     socket.on('checkUsername', (username, callback) => {
         if (users[username]) {
-            callback(false);
+            callback(false, 'Username is already taken');
+        } else if (username.length > 15) {
+            callback(false, 'Username is too long');
         } else {
             callback(true);
         }

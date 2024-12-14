@@ -25,7 +25,7 @@
 
         function checkUsername() {
             if (username.value) {
-                socket.emit('checkUsername', username.value, function(isAvailable) {
+                socket.emit('checkUsername', username.value, function(isAvailable, response) {
                     var errorSpan = document.getElementById('error');
                     var availableUsernameSpan = document.getElementById('available-username');
                     if (isAvailable) {
@@ -40,7 +40,7 @@
                             errorSpan.style.color = 'red';
                             username.parentNode.insertBefore(errorSpan, username.nextSibling);
                         }
-                        errorSpan.textContent = 'Username is already taken. Please choose another one.';
+                        errorSpan.textContent = response;
                         availableUsernameSpan.textContent = '';
                         enter.disabled = true;
                         enter.textContent = 'Username Unavailable';
