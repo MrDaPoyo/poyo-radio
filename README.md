@@ -1,5 +1,4 @@
-![Logo](readme/logo.png)
-# Code N Chill
+![Logo](readme/bigLogo.png)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/MrDaPoyo/poyo-radio)
 ![GitHub License](https://img.shields.io/github/license/MrDaPoyo/poyo-radio)
 ![Discord](https://img.shields.io/discord/1284803560479133758)
