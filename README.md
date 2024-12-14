@@ -67,8 +67,8 @@ Here's a scheme of how the Radio works:
         }
     }, 1000);
     ```
-    If you haven't noticed yet, it's the script for the timer! It serves two purposes: update ``elapsedTime`` and, when a song finishes (``elapsedTime >= songLength``), it resets ``elapsedTime`` and proceeds to choose a new song! After it's chosen, it sends another ``currentTrack`` packet with the new track info.
+    If you haven't noticed yet, it's the script for the timer (it refreshes every second)! It serves two purposes: update ``elapsedTime`` and, when a song finishes (``elapsedTime >= songLength``), it resets ``elapsedTime`` and proceeds to choose a new song! After it's chosen, it sends another ``currentTrack`` packet with the new track info.
 
 # How do usernames and chats work?
 
-It's way simpler than how the actual *electronic radio* works.
+It's way simpler than how the actual *electronic radio* works. When a packet of type `chat message` is recieved, it's forwarded to all listeners. That's it!
