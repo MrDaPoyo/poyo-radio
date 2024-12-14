@@ -61,7 +61,7 @@ Here's a scheme of how the Radio works:
 
 3. The song finishes
     
-    Once a song finishes, a new song is selected using the following code snipptet:
+    Once a song finishes, a new song is selected using the following code snippet:
     ```js
     setInterval(async () => {
         elapsedTime++;

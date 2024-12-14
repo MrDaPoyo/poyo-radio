@@ -85,7 +85,13 @@ function randomSong() {
 }
 
 var totalUsers = 0;
+var typingUsers = {};
 const users = {};
+
+function updateTypingUsers() {
+    const typingUsernames = Object.keys(typingUsers).filter(username => typingUsers[username]);
+    io.emit('chat typing', typingUsernames.join(', '));
+}
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -129,6 +135,16 @@ io.on('connection', (socket) => {
         } else {
             callback(true);
         }
+    });
+
+    socket.on('chat typing', (username) => {
+        typingUsers[username] = true;
+        updateTypingUsers();
+    });
+
+    socket.on('chat stoppedTyping', (username) => {
+        typingUsers[username] = false;
+        updateTypingUsers();
     });
     
 });

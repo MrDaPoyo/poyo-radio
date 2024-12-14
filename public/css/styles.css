@@ -99,7 +99,7 @@ body {
 }
 
 * {
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 input, button {
@@ -155,6 +155,7 @@ button:disabled {
     position: absolute;
     bottom: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     font-family: DOSVGA;
@@ -314,6 +315,14 @@ button:disabled {
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+.row-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 @media screen and (max-width: 768px) {
