@@ -121,6 +121,12 @@ button:disabled {
     background-color: var(--background-light);
     cursor: not-allowed;
 }
+
+a {
+    color: var(--tertiary);
+    text-decoration: underline;
+}
+
 .chat {
     display: flex;
     flex-direction: column;
