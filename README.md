@@ -1,4 +1,4 @@
-![Logo](readme/bigLogo.png)
+![Logo](readme/bigLogoNoMargin.png)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/MrDaPoyo/poyo-radio)
 ![GitHub License](https://img.shields.io/github/license/MrDaPoyo/poyo-radio)
